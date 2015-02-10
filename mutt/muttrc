@@ -1,0 +1,152 @@
+source ~/.mutt/gpg.rc
+
+# gpg key
+send-hook "~f @grosshat.com" set pgp_sign_as=58B65847
+
+#key binds for gpg
+bind compose p pgp-menu
+macro compose Y pfy "send email with GPG"
+
+# A basic .muttrc for use with Gmail
+
+folder-hook 'imedina@grosshat.com' 'source ~/.mutt/imedina_grosshat.account'
+folder-hook 'imedina@manoomit.com' 'source ~/.mutt/imedina_manoomit.account'
+folder-hook 'inigo.medina@miraiespana.com' 'source ~/.mutt/imedina_mirai.account'
+folder-hook 'manoomit@manoomit.com' 'source ~/.mutt/manoomit_manoomit.account'
+folder-hook 'losquetrastean@grosshat.com' 'source ~/.mutt/losquetrastean_grosshat.account'
+
+account-hook imaps://imedina@grosshat.com 'set imap_user=imedina@grosshat.com imap_pass= '
+account-hook imaps://imedina@manoomit.com 'set imap_user=imedina@manoomit.com imap_pass= '
+account-hook imaps://inigo.medina@miraiespana.com 'set imap_user=inigo.medina@miraiespana.com imap_pass= '
+account-hook imaps://manoomit@manoomit.com 'set imap_user=manoomit@manoomit.com imap_pass= '
+account-hook imaps://losquetrastean@grosshat.com 'set imap_user=losquetrastean@grosshat.com imap_pass= '
+source ~/.mutt/imedina_grosshat.account # default account
+
+macro index <f2> '<sync-mailbox><enter-command>source ~/.mutt/imedina_grosshat.account<enter><change-folder>!<enter>' 
+macro index <f3> '<sync-mailbox><enter-command>source ~/.mutt/imedina_manoomit.account<enter><change-folder>!<enter>' 
+macro index <f4> '<sync-mailbox><enter-command>source ~/.mutt/imedina_mirai.account<enter><change-folder>!<enter>' 
+macro index <f5> '<sync-mailbox><enter-command>source ~/.mutt/manoomit_manoomit.account<enter><change-folder>!<enter>' 
+macro index <f6> '<sync-mailbox><enter-command>source ~/.mutt/losquetrastean_grosshat.account<enter><change-folder>!<enter>' 
+
+# Change the following line to a different editor you prefer.
+set editor = "vim"
+
+# Contacts
+#set query_command="goobook query '%s'"
+#bind editor <Tab> complete-query
+macro index g "group-reply"
+
+# Basic config, you can leave this as is
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set imap_check_subscribed
+set hostname = gmail.com
+set mail_check = 15
+set timeout = 15
+set imap_keepalive = 15
+set postponed = "+[GMail]/Drafts"
+set record = "+[GMail]/Sent Mail"
+set header_cache=~/.mutt/cache/headers
+set message_cachedir=~/.mutt/cache/bodies
+set certificate_file=~/.mutt/certificates
+set include
+set sort = 'threads'
+set sort_aux = 'reverse-last-date-received'
+set auto_tag = yes
+ignore "Authentication-Results:"
+ignore "DomainKey-Signature:"
+ignore "DKIM-Signature:"
+hdr_order Date From To Cc
+alternative_order text/plain text/html *
+auto_view text/html
+bind editor <Tab> complete-query
+bind editor ^T complete
+bind editor <space> noop 
+
+# Gmail-style keyboard shortcuts
+macro index,pager y "<enter-command>unset trash\n <delete-message>" "Gmail archive message"
+macro index,pager d "<enter-command>set trash=\"imaps://imap.googlemail.com/[GMail]/Bin\"\n <delete-message>" "Gmail delete message"
+macro index,pager gi "<change-folder>=INBOX<enter>" "Go to inbox"
+macro index,pager ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail"
+macro index,pager gs "<change-folder>=[Gmail]/Starred<enter>" "Go to starred messages"
+macro index,pager gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
+
+ 
+# Spam stuff.
+ macro index,pager S "<save-message>=[Gmail]/Spam<enter>" "mark message as spam"
+macro index,pager H "<save-message>=INBOX<enter>" "mark message as ham (not spam)"
+
+# Various settings
+set to_chars            = " +TCF "
+set copy                = no             # Do not copy sent mail.  Gmail smtp
+set wait_key            = no
+set delete
+set delete_untag                         # Untag msgs when marking them for
+unset confirmappend
+set quit
+set nomove                               # Stop asking to "move read messages
+set noautoedit
+set allow_8bit
+set auto_tag                             # If something is tagged run commands
+unset mark_old                           # Don't mark messages as old when I
+unset beep
+unset beep_new
+set read_inc            = 100            # Read counter ticks every 100 msgs.
+set write_inc           = 100            # Write counter ticks every 100 msgs.
+set fcc_clear                            # Keep fcc's clear of signatues and
+set copy                                 # Keep copies of outgoing mail...
+set auto_tag                             # in the index menu which affect a
+set history             = 200            # controls the size (in number of
+set mailcap_sanitize
+
+# View Options ------------------------------------
+set tilde                               # pad bottom blank lines when in page
+set pager_index_lines   = 10            # Show 2 messages on either side of
+set pager_context       = 5             # Paging down a message leaves 5 lines
+set pager_stop                          # don't go to next message
+set menu_scroll                         # scroll in menus
+set arrow_cursor                        # Changes the `bar' cursor to an
+set indent_str          = "> "
+unset markers                           # no ugly plus signs
+set quote_regexp        = "^( {0,4}[>|:#%]| {0,4}[a-z0-9]+[>|]+)+"
+set resolve
+
+# Compose View Options -------------------------
+set envelope_from                        # which from?
+set edit_headers    = no                # show headers when composing
+set fast_reply                           # skip to compose when replying
+unset reply_self
+set reply_to                             # reply to Reply to: field
+set askcc                                # ask for CC:
+set fcc_attach                           # save attachments with the body
+set mime_forward    = ask-no             # ask to forward attachments as part
+set mime_forward_rest                    # forwarding multiple attachments of
+set forward_format  = "Fwd: %s"          # format of subject when forwarding
+set forward_decode                       # decode when forwarding
+set attribution     = "On %d, %n wrote:" # format of quoting header
+set reverse_name                         # reply as whomever it was to
+set forward_quote                        # include message in forwards
+set postpone        = ask-yes            # controls whether or not messages
+unset sig_dashes                         # dashes before sig
+
+# Index View Options -----------------------------
+set date_format         = "%m/%d"
+set index_format       = "%4C %Z {%b %d} %-15.15L (%4l) %s"
+set sort                = threads                           # As in GMail
+set strict_threads      = "yes"
+set sort_browser        = "date"
+set sort_aux            = "reverse-last-date-received"      # As in GMail
+unset collapse_unread
+set sort_re
+set reply_regexp        = "^(([Rr][Ee]?(\[[0-9]+\])?: *)?(\[[^]]+\] *)?)*"
+set narrow_tree 
+
+# Printing actions --------------------------------
+set print               = ask-yes                           # Ask if print
+set print_command       = "mutt-print %s"                   # Send your
+
+# Spell Checking ----------------------------------
+set ispell              = "aspell -e -c"
+
+# Dealing with attachments -------------------------
+set implicit_autoview
