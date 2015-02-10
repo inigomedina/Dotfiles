@@ -78,7 +78,7 @@ macro index,pager H "<save-message>=INBOX<enter>" "mark message as ham (not spam
 
 # Various settings
 set to_chars            = " +TCF "
-set copy                = no             # Do not copy sent mail.  Gmail smtp
+set copy                = yes            # Do not copy sent mail.  Gmail smtp
 set wait_key            = no
 set delete
 set delete_untag                         # Untag msgs when marking them for
